@@ -3,7 +3,7 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
-app.get("/", (req, res) => {
+app.get("/api/products", (req, res) => {
   const products = [
     {
       id: 1,
@@ -27,6 +27,13 @@ app.get("/", (req, res) => {
         "https://plus.unsplash.com/premium_photo-1605387293548-d296f099713c?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M",
     },
   ];
+  if (req.query.search) {
+    const filterProducts = products.filter((product) =>
+      product.name.includes(req.query.search)
+    );
+    res.send(filterProducts);
+    return;
+  }
   setTimeout(() => {
     res.json(products);
   }, 3000);
